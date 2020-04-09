@@ -22,6 +22,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+
   /*
   ** Customize the progress-bar color
   */
@@ -54,6 +55,12 @@ export default {
   ** Build configuration
   */
   build: {
+    html: {
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+      },
+    },
     /*
     ** You can extend webpack config here
     */
