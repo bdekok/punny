@@ -1,7 +1,7 @@
 
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
   router: {
-    base: '/punny/'
+    base: '/punny/dist/'
   }
 } : {}
 
