@@ -5,6 +5,8 @@
 A joke generator using [this API](https://github.com/Sv443/JokeAPI), thank you for the content.  
 Build as a demo project for showing the different rendering modes of [Nuxt.js](https://nuxtjs.org). 
 
+[You can see a demo of the generated variant here](https://bdekok.github.io/punny/dist/)
+
 ## Before anything
 
 Please install your dependencies with npm
