@@ -1,4 +1,5 @@
 import { Wrapper, mount } from '@vue/test-utils'
+import { SingleJoke, TwoPartJoke } from '@/types/joke'
 import JokePage from './index.vue'
 
 const mockedJokeSingle = {
@@ -14,7 +15,8 @@ const mockedJokeSingle = {
   },
   id: 39,
   error: false
-}
+} as SingleJoke
+
 const mockedJokeDouble = {
     category: "Programming",
     type: "twopart",
@@ -29,7 +31,7 @@ const mockedJokeDouble = {
     },
     id: 54,
     error: false
-}
+} as TwoPartJoke
 
 describe('very not funny joke generator', () => {
   let wrapper: Wrapper<any>
@@ -39,27 +41,31 @@ describe('very not funny joke generator', () => {
   const JOKE_LINE_TWO_DOUBLE = '.joke__display h2'
   const JOKE_BUTTON = '.joke__button'
 
-  const mountWrapper = () => {
+  const mockAxios = (mockedReturn: SingleJoke | TwoPartJoke): Object => () => Promise.resolve(mockedReturn)
+
+  const mountWrapper = (mockedReturn: SingleJoke | TwoPartJoke = mockedJokeSingle): void => {
+    // creates wrapper and mocks axios on this instance
     wrapper = mount(JokePage, {
       mocks: {
         $axios: {
-          $get: () => Promise.resolve(mockedJokeDouble)
+          $get: mockAxios(mockedReturn)
         }
       }
     })
   }
-
-  const mockAsyncData = async (mockedReturn: Object) => {
+  const mockAsyncData = async (mockedReturn: SingleJoke | TwoPartJoke = mockedJokeSingle): Promise<void> => {
+    // calls asyncData with a mock and sets result to data
     const data = await wrapper.vm.$options.asyncData({
       $axios: {
-        $get: () => Promise.resolve(mockedReturn)
+        $get: mockAxios(mockedReturn)
       }
     })
+
     wrapper.setData({ joke : data.joke })
     await wrapper.vm.$nextTick()
   }
 
-  const getTextFromDom = (selector: string):string => {
+  const getTextFromDom = (selector: string): string => {
     return wrapper.find(selector).text()
   }
 
@@ -69,7 +75,7 @@ describe('very not funny joke generator', () => {
 
   it('can show me a single line joke when I load', async () => {
     mountWrapper()
-    await mockAsyncData(mockedJokeSingle)
+    await mockAsyncData()
 
     const jokeText = getTextFromDom(JOKE_TEXT_SINGLE)
     expect(jokeText).toBe(mockedJokeSingle.joke)
@@ -87,8 +93,8 @@ describe('very not funny joke generator', () => {
   })
 
   it('shows me a new joke when I press the button', async () => {
-    mountWrapper()
-    await mockAsyncData(mockedJokeSingle)
+    mountWrapper(mockedJokeDouble)
+    await mockAsyncData()
 
     const jokeText = getTextFromDom(JOKE_TEXT_SINGLE)
     expect(jokeText).toBe(mockedJokeSingle.joke)

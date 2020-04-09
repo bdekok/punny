@@ -61,6 +61,9 @@ export default Vue.extend({
   justify-self: flex-end;
 }
 
+.joke__display {
+  max-width: 75vw;
+}
 .joke__display h1,
 .joke__display h2 {
   white-space: pre-wrap;
