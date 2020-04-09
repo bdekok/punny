@@ -1,7 +1,9 @@
 
-const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+const isGithub = process.env.DEPLOY_ENV === 'GH_PAGES'
+const githubUrl = '/punny/dist/'
+const routerBase = isGithub ? {
   router: {
-    base: '/punny/dist/'
+    base: githubUrl
   }
 } : {}
 
@@ -18,6 +20,9 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: isGithub ? githubUrl+'/favicon.ico' : '/favicon.ico'}
+    ]
   },
 
   /*
