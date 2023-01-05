@@ -18,7 +18,7 @@
     "@nuxtjs/axios": "^5.9.7",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@types/jest": "^25.2.1",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.15.8"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",
